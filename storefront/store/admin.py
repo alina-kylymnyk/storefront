@@ -18,11 +18,22 @@ class InventoryFilter(admin.SimpleListFilter):
             return queryset.filter(inventory__lt=10)
 
 
+class ProductImageInline(admin.TabularInline):
+    model = models.ProductImage
+    readonly_fields = ["thumbnail"]
+
+    def thumbnail(self, instance):
+        if instance.image.name != "":
+            return format_html(f'<img src={instance.image.url}" class="thumbnail"/>')
+        return ""
+
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ["collection"]
     prepopulated_fields = {"slug": ["title"]}
     actions = ["clear_inventory"]
+    inlines = [ProductImageInline]
     list_display = ["title", "unit_price", "inventory_status", "collection_title"]
     list_editable = ["unit_price"]
     list_filter = ["collection", "last_update", InventoryFilter]
@@ -46,10 +57,17 @@ class ProductAdmin(admin.ModelAdmin):
             request, f"{updated_count} products were successfully updated"
         )
 
+    class Media:
+        css = {
+            'all': ['store/styles.css']
+        }
+
+
 
 # Register your models here.
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["featured_product"]
     list_display = ["title", "products_count"]
     search_fields = ["title"]
 
@@ -63,15 +81,16 @@ class CollectionAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{}</a>', url, collection.products_count)
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(products_count=Count("product"))
+        return super().get_queryset(request).annotate(products_count=Count("products"))
 
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ["first_name", "last_name", "membership"]
     list_editable = ["membership"]
-    ordering = ["first_name", "last_name"]
+    ordering = ["user__first_name", "user__last_name"]
     list_per_page = 10
+    list_select_related = ["user"]
     search_fields = ["first_name__istartswith", "last_name__istartswith"]
 
     @admin.display(ordering="orders_count")

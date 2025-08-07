@@ -5,10 +5,30 @@ name = "pypi"
 
 [packages]
 django = "*"
-django-debug-toolbar = "*"
-mysqlclient = "*"
+cryptography = "*"
+djangorestframework = "*"
+serializers = "*"
+drf-nested-routers = "*"
+django-filter = "*"
+django-cors-headers = "*"
+redis = "*"
+celery = "*"
+pymysql = "*"
+djoser = "*"
+flower = "*"
+sik = "*"
+django-silk = "*"
+django-redis = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
+django-debug-toolbar = "*"
+pytest = "*"
+pytest-django = "*"
+pytest-watch = "*"
+model-bakery = "*"
+locust = "*"
 
 [requires]
 python_version = "3.12"

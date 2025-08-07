@@ -4,8 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+djoser = "*"
+djangorestframework-simplejwt = "*"
+pillow = "*"
+django-templated-mail = "*"
+celery = "*"
+locust = "*"
+django-silk = "*"
 
 [dev-packages]
+django-silk = "*"
 
 [requires]
 python_version = "3.12"
