@@ -1,4 +1,3 @@
-# Storefront
 # Storefront - Django E-commerce API
 
 A Django REST API for an online store with products, shopping cart, and order management.
