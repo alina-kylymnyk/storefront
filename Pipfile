@@ -12,6 +12,7 @@ celery = "*"
 locust = "*"
 django-silk = "*"
 dj-database-url = "*"
+pymysql = "*"
 
 [dev-packages]
 django-silk = "*"
